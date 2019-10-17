@@ -31,7 +31,7 @@ function returnColor(rowIndex,colIndex){
  }
 
 function colorMatchCheck(one,two,three,four){
-	return (one===two && one===three && one===four && one != 'rgb(128, 128, 128)' && one != undefined){
+	return (one===two && one===three && one===four && one != 'rgb(128, 128, 128)' && one != undefined)
 
 }
 
@@ -40,12 +40,12 @@ function colorMatchCheck(one,two,three,four){
 function horizontalWin(){
 	for( var row=0;row<6;row ++){
 		for(var col=0;col<4;col++){
-			if(colorMatchCheck(returnColor(row,col), returnColor(row,col+1), returnColor(row,col+2), returnColor(row,col+3))
-			{
+			if(colorMatchCheck(returnColor(row,col), returnColor(row,col+1), returnColor(row,col+2), returnColor(row,col+3))){
 				console.log('horiz');
 				reportWin(row,col);
 				return true;
-			}else{
+			}
+			else{
 				continue;
 			}
 		}
@@ -56,7 +56,7 @@ function horizontalWin(){
 function verticalWin(){
 	for( var col=0;col<7;col ++){
 		for(var row=0;row<3;row++){
-			if(colorMatchCheck(returnColor(row,col), returnColor(row+1,col), returnColor(row+2,col), returnColor(row+3,col))
+			if(colorMatchCheck(returnColor(row,col), returnColor(row+1,col), returnColor(row+2,col), returnColor(row+3,col)))
 			{
 				console.log('vertical');
 				reportWin(row,col);
@@ -73,12 +73,12 @@ function verticalWin(){
 function diagonalWin(){
 	for( var col=0;col<5;col ++){
 		for(var row=0;row<7;row++){
-			if(colorMatchCheck(returnColor(row,col), returnColor(row+1,col+1), returnColor(row+2,col+2), returnColor(row+3,col+3))
+			if(colorMatchCheck(returnColor(row,col), returnColor(row+1,col+1), returnColor(row+2,col+2), returnColor(row+3,col+3)))
 			{
 				console.log('diag');
 				reportWin(row,col);
 				return true;
-			}else if(colorMatchCheck(returnColor(row,col), returnColor(row-1,col+1), returnColor(row-2,col+2), returnColor(row-3,col+3)){
+			}else if(colorMatchCheck(returnColor(row,col), returnColor(row-1,col+1), returnColor(row-2,col+2), returnColor(row-3,col+3))){
 				console.log('diag');
 				reportWin(row,col);
 				return true;
@@ -90,3 +90,35 @@ function diagonalWin(){
 		}
 	}
 }
+
+//start with player 1
+var currentPlayer=1;
+var currentName=player1;
+var currentColor=player1color;
+
+$('h3').text(player1+" its your turn, pick a column to drop in! ");
+ $('.board button').on('click',function(){
+ 	var col=$(this).closest('td').index()
+ 	var bottomavail=checkBottom(col);
+ 	changeColor(bottomavail,col,currentColor);
+ 	if(horizontalWin() || verticalWin() || diagonalWin()){
+ 		$('h1').text(currentName+" won the match!");
+ 		$('h3').fadeOut('fast');
+ 		//$('h2').fadeOut('fast');
+ 		$('h2').text('restart the match');
+ 		//$('.container').fadeOut(10000);
+ 		
+ 	}
+ 	//no win or tie
+ 	currentPlayer=currentPlayer*-1;
+ 	if(currentPlayer===1){
+ 		currentName=player1;
+ 		$('h3').text(currentName+" it is your turn");
+ 		currentColor=player1color;
+ 	}else{
+ 		currentName=player2;
+ 		$('h3').text(currentName+" it is your turn");	
+ 		currentColor=player2color;
+ 	}
+})
+
